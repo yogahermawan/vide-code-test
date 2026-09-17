@@ -4,9 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "predev": "npm run build",
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "esbuild src/main.jsx --bundle --format=iife --minify --define:process.env.NODE_ENV='\"production\"' --outfile=app.js",
+    "preview": "vite"
   },
   "dependencies": {
     "react": "^19.2.7",
