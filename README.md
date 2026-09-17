@@ -1,2 +1,18 @@
-1. $vibecoding-sdlc based from this requirement: --> $vibecoding-sdlc is my skill, create from scratch for handle development feature and building simply product. Include : 4 checkpoint ()
-2. 
+# Premium Store
+
+A React and Vite shopping-cart demo.
+
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite (normally `http://localhost:5173`). Do not open `index.html` directly: JSX modules must be served and transformed by Vite.
+
+## Production build
+
+```bash
+npm run build
+```
