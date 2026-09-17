@@ -132,3 +132,86 @@ CHECKPOINT 1 — PLAN
   - Added confirmation gates for destructive removal and simulated checkout actions.
   - Added responsive styling and explicit empty, no-results, and disabled-action states.
   - Acceptance testing is pending.
+
+  CHECKPOINT 3 — VERIFY
+
+  - Acceptance test results
+
+     Requirement                 Test                                Expected            Actual              Status
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ━━━━━━━━━━━━━━━━━━  ━━━━━━━━━━━━━━━━━━  ━━━━━━━━━━━━━━━━━━━━━━━━━
+     React architecture          Production compilation              React               Vite transformed    Pass
+                                                                     components/hooks    23 modules
+                                                                     compile             successfully
+    ──────────────────────────  ──────────────────────────────────  ──────────────────  ──────────────────  ─────────────────────────
+     Add notification            Add handler path                    Toast after add     setToast runs       Pass—code-path verified
+                                                                                         after functional
+                                                                                         cart update
+    ──────────────────────────  ──────────────────────────────────  ──────────────────  ──────────────────  ─────────────────────────
+     Cart total quantity         Derived cart count                  Sum all line        reduce derives      Pass—code-path verified
+                                                                     quantities          the badge count
+    ──────────────────────────  ──────────────────────────────────  ──────────────────  ──────────────────  ─────────────────────────
+     Search                      Empty, partial, whitespace, no-     Filtered catalog    Debounced,          Pass—code-path verified
+                                 result paths                        with no-result      trimmed lower-
+                                                                     state               case query and
+                                                                                         explicit empty
+                                                                                         state
+    ──────────────────────────  ──────────────────────────────────  ──────────────────  ──────────────────  ─────────────────────────
+     Quantity multiples          Repeated add/increment paths        Existing line       Functional state    Pass—code-path verified
+                                                                     increments          updates
+                                                                     without             increment
+                                                                     overwrite           quantity
+    ──────────────────────────  ──────────────────────────────────  ──────────────────  ──────────────────  ─────────────────────────
+     Removal/checkout dialogs    Request and confirm/cancel paths    Confirm before      Dialog state        Pass—code-path verified
+                                                                     destructive         gates removal
+                                                                     state change        and simulated
+                                                                                         checkout
+    ──────────────────────────  ──────────────────────────────────  ──────────────────  ──────────────────  ─────────────────────────
+     Responsive layout           CSS media-query compilation         Adapt at tablet/    850px and 480px     Pass—static review
+                                                                     mobile widths       layouts compiled
+
+  - Edge-case results
+    Empty cart disables checkout; decrementing quantity 1 opens removal confirmation; an unknown product ID safely returns without
+    mutation; whitespace-only search resolves to the full catalog; duplicate additions increment a single line item. These were
+    verified from the compiled code paths, not through a browser automation runner.
+
+  - Security findings
+    React rendering avoids unsafe HTML injection, there is no persisted-data parsing, no secrets, and cart transitions are kept in
+    local state. npm audit found one high-severity Vite advisory and one low-severity esbuild advisory, both with fixes available;
+    they affect development tooling, especially on Windows.
+
+  - E2E result, or reason skipped
+    Skipped: no installed browser or Playwright runner was available. The local Vite page was successfully served and retrieved, and
+    the production build passed, but interactive browser actions were not automated.
+
+  - Code review findings
+    Components are appropriately separated and state updates use functional setters. Recommended P1 accessibility refinements: trap
+    focus inside the open dialog, support Escape to close dialogs/drawer, and prevent closed drawer controls from receiving keyboard
+    focus.
+
+  - Bugs/issues discovered
+    The dependency audit is the only blocking-quality concern found: Vite 7.3.2 and transitive esbuild have known advisories. No P0
+    functional bug was found in the reviewed implementation.
+
+  - Recommended fixes
+    In Checkpoint 4, run the least-risk dependency update that resolves the Vite/esbuild advisories, then rebuild. Optionally move
+    Vite to devDependencies and apply the small accessibility refinements if approved.
+
+  - Remaining time/risk assessment if known
+    P0 behavior compiles and its code paths are covered by review; the remaining risk is unautomated real-browser interaction and the
+    development-dependency advisories.
+
+  ### Recruiter Notes
+
+  - What I did: Verified the compiled React application against each original P0 requirement and relevant boundary paths.
+  - Why: Derived state and guarded transitions are the critical areas for a shopping-cart implementation.
+  - Validation: Production build passed, the local Vite page served successfully, and npm’s advisory database was checked.
+  - Key decision: Deferred dependency remediation until approval because it changes installed versions.
+  - Next: Apply only approved remediation and run regression verification.
+
+  ### Change Notes
+
+  - Confirmed compiled component structure and P0 cart/search behavior through code-path review.
+  - Confirmed empty-cart, no-result, duplicate-add, and minimum-quantity behavior.
+  - Identified two development-tool dependency advisories with available fixes.
+  - Recorded browser E2E as intentionally unexecuted because no runner is installed.
+  - No source changes were made during verification.
