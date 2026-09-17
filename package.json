@@ -6,7 +6,7 @@
   "scripts": {
     "predev": "npm run build",
     "dev": "vite",
-    "build": "esbuild src/main.jsx --bundle --format=iife --minify --define:process.env.NODE_ENV='\"production\"' --outfile=app-v3.js",
+    "build": "esbuild src/main.jsx --bundle --format=iife --minify --define:process.env.NODE_ENV='\"production\"' --outfile=app.js",
     "preview": "vite"
   },
   "dependencies": {

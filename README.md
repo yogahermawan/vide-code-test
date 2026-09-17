@@ -34,7 +34,7 @@ Open the local URL printed by Vite, normally `http://localhost:5173/`.
 npm run build
 ```
 
-The build generates `app-v3.js` and `app-v3.css`, which are loaded by `index.html`. This also allows the completed page to be opened from a static server.
+The build generates `app.js` and `app.css`, which are loaded by `index.html`. This also allows the completed page to be opened from a static server.
 
 ## Evidence
 
