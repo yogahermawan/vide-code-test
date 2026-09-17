@@ -85,3 +85,50 @@ CHECKPOINT 1 — PLAN
   5. style: improve responsive layout and accessible interaction states
 
   Please review and approve Checkpoint 1 to begin the build.
+
+  ==== checkpoint 2====
+  CHECKPOINT 2 — BUILD
+
+  - Files changed
+    index.html, package.json, package-lock.json, src/main.jsx, and src/styles.css.
+
+  - P0 features implemented
+    React components and hooks; responsive catalog; debounced search; cart quantity badge and totals; correct repeated quantity
+    updates; cart drawer; removal and checkout confirmation dialogs; add/remove/checkout toast notifications; empty and disabled
+    checkout states.
+
+  - Commands executed
+    npm install react@19.2.7 react-dom@19.2.7 vite@7.3.2
+    npm run build
+
+  - Build/run result
+    Production build completed successfully with Vite.
+
+  - Errors encountered
+    The initial build script ran Vite’s dev server, which could not bind to port 5173 in the sandbox.
+
+  - Fixes applied
+    Updated the build script to vite build; production compilation then passed.
+
+  - Known limitations
+    Checkout is intentionally simulated. Cart persistence, real product images, and backend integration remain out of scope. npm
+    reported two dependency audit findings; no audit remediation was performed during this checkpoint.
+
+  - P0 items not yet implemented
+    None. Acceptance and edge-case verification are pending Checkpoint 3 approval.
+
+  ### Recruiter Notes
+
+  - What I did: Replaced the legacy global-script page with a component-based React application.
+  - Why: Local React state makes cart totals, repeated quantity updates, dialogs, and notifications reliable and easier to maintain.
+  - Key decision: Used a small debouncing hook and derived totals instead of adding a state-management dependency.
+  - Validation: The Vite production build completed successfully after correcting the build command.
+  - Next: Run requirement-based acceptance, edge-case, security, and code-review checks.
+
+  ### Change Notes
+
+  - Reorganized the frontend into focused catalog, cart, dialog, header, and notification components.
+  - Added derived cart quantity and total calculations to prevent stale or inconsistent displayed values.
+  - Added confirmation gates for destructive removal and simulated checkout actions.
+  - Added responsive styling and explicit empty, no-results, and disabled-action states.
+  - Acceptance testing is pending.
